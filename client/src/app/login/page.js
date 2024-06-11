@@ -15,7 +15,7 @@ const login = () => {
       <h1>Login to Hamro Ride</h1>
       </div>
       <br/>
-      <Input type="email" variant="bordered" label="Email"  /><br/>
+      <Input type="email" variant="bordered" label="Email"  />
       <Input type="password" label="Password"  variant="bordered"/>
     <br/><br/>
      <div className='text-blue-600 text-center '>

@@ -1,42 +1,38 @@
-import HamroRideLogo from '@/component/logo/page'
-import Link from 'next/link';
+'use client'
 import React from 'react'
-import { FaArrowCircleRight } from "react-icons/fa";
-import { MdOutlineEmail,MdWhatsapp } from "react-icons/md";
+import Link from 'next/link';
+import {Button, Input} from "@nextui-org/react";
+import CustumNavbar from '@/component/navbar/page';
 
-
-const register = () => {
+const Register = () => {
   return (
     <div>
-    <div className='m-4 p-4 '><HamroRideLogo/></div>
-    <div className='flex justify-center items-center '>
-    <div className='text-5xl flex flex-col justify-center items-left bg-gray-100 rounded-3xl shadow-2xl p-20 m-5 space-y-7  '>
-    How do you want to sign up?
-    <br/> <br/>
-    <div className=' text-3xl text-blue-600 underline space-y-8'>
-      <Link href='/register-email'>
+        <CustumNavbar/>
+         <div className='flex justify-center items-center  '>
+         <div className='w-[45%]  p-8 bg-gray-100 rounded-3xl shadow-2xl p-20 m-5 space-y-7	'>
+     <div className='text-blue-600 text-center text-5xl'>
+      <h1>Sign Up</h1>
+    <br/></div>
+    <Input type="firstName" variant="bordered" label="First Name"  />
+    <Input type="lastName" variant="bordered" label="Last Name"  />
+    <Input type="email" variant="bordered" label="Email"  />
+    <Input type="address" variant="bordered" label="Address"  />
+    <Input type="password" label="Password"  variant="bordered"/>
+    <Input type="Number" variant="bordered" label="Phone Number"  />
+    <br/>
+     <div className='text-blue-600 text-center '>
+      <Button radius="full" className="bg-blue-600 text-white shadow-lg">
+      Sign Up
+    </Button>
+    <br/><br/>
+    <div className='font-bold'>
+   <Link href='/login'> Already Have an Account?</Link> 
+</div></div>
 
-<div className='flex space-x-4 hover:bg-blue-600 hover:text-white p-6 shadow-2xl rounded-3xl '>
-<div><h1> Sign Up using Email </h1> </div>
-<div><MdOutlineEmail /></div>
- <div><FaArrowCircleRight />  </div>
-</div>
-</Link>
-<Link href='/register-whatsapp'>
-<div className='flex space-x-4 shadow-2xl rounded-3xl p-6 hover:bg-blue-600 hover:text-white'>
-<div><h1>Sign Up using What's app</h1></div>
-<div><MdWhatsapp/></div>
-<div><FaArrowCircleRight /></div>
-</div>
-</Link>
-</div>
-<br/>
-<Link href='/login'>
-<div className='text-center  text-2xl text-blue-600 font-bold '><h1>Already a member?</h1></div>
-</Link>
-</div>    </div>
-    </div>
+
+
+   </div></div></div>
   )
 }
 
-export default register
+export default Register;
