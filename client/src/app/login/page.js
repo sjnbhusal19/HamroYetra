@@ -3,8 +3,20 @@ import React from 'react'
 import {Button,Input} from "@nextui-org/react";
 import Link from "next/link";
 import CustumNavbar from '@/component/navbar/page';
+import { useFormik} from 'formik';
+
 
 const login = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password:'',
+    },
+    onSubmit: values => {
+      loginUser(values)
+    },
+  });
+  
   return (
    <div> 
     <CustumNavbar/>

@@ -3,8 +3,49 @@ import React from 'react'
 import Link from 'next/link';
 import {Button, Input} from "@nextui-org/react";
 import CustumNavbar from '@/component/navbar/page';
+import { useFormik} from 'formik';
+import * as Yup from "yup";
+
+const signupSchema = Yup.object().shape({
+  firstName: Yup.string()
+      .min(2,'Too Short')
+      .required('First Name is required'),
+  lastName: Yup.string()
+      .min(2,'Too Short')
+      .required('Last Name is required'),    
+  email: Yup.string()
+      .email('Invalid email format')
+      .required('Email is required'),
+  address: Yup.string()
+      .min(2,'Too Short')
+      .required('Address is required'),
+  password: Yup.string()
+      .min(8, 'Password must be at least 8 characters long')
+      .required('Password is required'),
+  phoneNumber: Yup.string()
+      .matches(/^[0-9]{10}$/, 'Phone number must be exactly 10 digits')
+      .required('Phone number is required'),    
+});
 
 const Register = () => {
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      address:'',
+      password:'',
+      phoneNumber:'',
+      gender: '',
+      role:'',
+    },
+    validationSchema:signupSchema,
+    onSubmit: values=> {
+      console.log(values);
+      registerUser(values);
+    }
+  });
+
   return (
     <div>
         <CustumNavbar/>
@@ -13,12 +54,72 @@ const Register = () => {
      <div className='text-blue-600 text-center text-5xl'>
       <h1>Sign Up</h1>
     <br/></div>
-    <Input type="firstName" variant="bordered" label="First Name"  />
-    <Input type="lastName" variant="bordered" label="Last Name"  />
-    <Input type="email" variant="bordered" label="Email"  />
-    <Input type="address" variant="bordered" label="Address"  />
-    <Input type="password" label="Password"  variant="bordered"/>
-    <Input type="Number" variant="bordered" label="Phone Number"  />
+    <div>
+    <Input type="firstName" variant="bordered" label="First Name" 
+    id="firstName"
+    name="firstName"
+    onChange={formik.handleChange}
+    value={formik.values.firstName} 
+     />
+     {formik.touched.firstName && formik.errors.firstName ? (
+        <div className="text-black text-sm">{formik.errors.firstName}</div>
+        ) : null}
+        </div>
+        <div>
+    <Input type="lastName" variant="bordered" label="Last Name" 
+     id="lastName"
+     name="lastName"
+     onChange={formik.handleChange}
+     value={formik.values.lastName}
+      />
+       {formik.touched.lastName && formik.errors.lastName ? (
+                  <div className="text-black text-sm">{formik.errors.lastName}</div>
+                ) : null}
+      </div>
+    <div>
+    <Input type="email" variant="bordered" label="Email" 
+     id="email"
+     name="email"
+     onChange={formik.handleChange}
+     value={formik.values.email}
+      />
+    {formik.touched.email && formik.errors.email ? (
+                  <div className="text-black text-sm">{formik.errors.email}</div>
+                ) : null}
+    </div>
+    <div>
+    <Input type="address" variant="bordered" label="Address" 
+     id="address"
+     name="address"
+     onChange={formik.handleChange}
+     value={formik.values.address}
+      />
+       {formik.touched.address && formik.errors.address ? (
+                  <div className="text-black text-sm">{formik.errors.address}</div>
+                ) : null}
+      </div>
+      <div>
+    <Input type="password" label="Password"  variant="bordered"
+     id="password"
+     name="password"
+     onChange={formik.handleChange}
+     value={formik.values.password}
+     />
+     {formik.touched.password && formik.errors.password ? (
+                  <div className="text-black text-sm">{formik.errors.password}</div>
+                ) : null}
+    </div>
+    <div>
+    <Input type="Number" variant="bordered" label="Phone Number" 
+     id="phoneNumber"
+     name="phoneNumber"
+     onChange={formik.handleChange}
+     value={formik.values.phoneNumber}
+      />
+       {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+                  <div className="text-black text-sm">{formik.errors.phoneNumber}</div>
+                ) : null}
+      </div>
     <br/>
      <div className='text-blue-600 text-center '>
       <Button radius="full" className="bg-blue-600 text-white shadow-lg">
