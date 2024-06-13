@@ -48,6 +48,13 @@ app.post('/register', async(req, res) => {
   try {
     const hashPassword = await bcrypt.hash(req.body.password,saltRounds)
     req.body.password=hashPassword;
+    const phoneExist = await User.exists({phoneNumber:req.body.phoneNumber})
+    const emailExist = await User.exists({email:req.body.email})
+    if (phoneExist) {
+      return res.json({msg :"Phone Number is already used"})
+    }else if (emailExist){
+      return res.json({msg:"Email is already Used"})
+    }
     const newUser=new User(req.body);
     const creatUser=await newUser.save();
     res.status(201).send(creatUser);
@@ -64,36 +71,20 @@ app.get('/register', async(req, res) => {
   }
 })
 
-app.delete('/register/:id', async (req,res)=>{
-  try {
-    const deleteUser = await User.findByIdAndDelete(req.params.id);
-    if (!req.params.id){
-      return res.status(400).send();
+app.post('/login', async (req,res) =>{
+  const user=await User.findOne({email:req.body.email})
+  if (user){
+    const isMatched= await bcrypt.compare(req.body.password,user.password);
+    if (isMatched){
+      res.json({msg:"Authorized"})
+    }else{
+      res.json({msg:"Invlide password"})
     }
-    res.send(deleteUser)
-  } catch (error){
-    res.status(500).send(error);
+  }else{
+    res.json({msg:"Email is not registred"})
   }
 })
 
-
-app.post('/users', (req, res) => {
-  User.create({name:"sujan", addr:"bharatpur"})
-  res.send('ok')
-})
-
-
-app.get('/me', (req, res) => {
-  res.send({
-    name:"sujan",
-    message:"Hello World"
-  })
-})
-
-app.get('/users', async (req, res) => {
-  const data = await User.find()
-  res.send(data)
-})
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
