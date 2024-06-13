@@ -4,6 +4,9 @@ const app = express()
 const mongoose = require('mongoose');
 const dbConnect = require('./src/db/connection');
 const { Schema } = mongoose;
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 dbConnect()
 
@@ -43,6 +46,8 @@ const port = process.env.PORT
 
 app.post('/register', async(req, res) => {
   try {
+    const hashPassword = await bcrypt.hash(req.body.password,saltRounds)
+    req.body.password=hashPassword;
     const newUser=new User(req.body);
     const creatUser=await newUser.save();
     res.status(201).send(creatUser);
