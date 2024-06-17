@@ -36,19 +36,23 @@ const Register = () => {
       address:'',
       password:'',
       phoneNumber:'',
-      gender: '',
-      role:'',
+      // gender: '',
+      // role:'',
     },
     validationSchema:signupSchema,
-    onSubmit: values=> {
-      console.log(values);
-      registerUser(values);
+    onSubmit: values => {
+    console.log(values);
+    registerUser(values)
     }
   });
 
+  const registerUser = (values) => {
+    fetch ('http://localhost:4000/register')
+  }
   return (
     <div>
         <CustumNavbar/>
+        <form onSubmit={formik.handleSubmit}>
          <div className='flex justify-center items-center  '>
          <div className='w-[45%]  p-8 bg-gray-100 rounded-3xl shadow-2xl p-20 m-5 space-y-7	'>
      <div className='text-blue-600 text-center text-5xl'>
@@ -122,7 +126,7 @@ const Register = () => {
       </div>
     <br/>
      <div className='text-blue-600 text-center '>
-      <Button radius="full" className="bg-blue-600 text-white shadow-lg">
+      <Button type="submit" radius="full" className="bg-blue-600 text-white shadow-lg">
       Sign Up
     </Button>
     <br/><br/>
@@ -132,7 +136,9 @@ const Register = () => {
 
 
 
-   </div></div></div>
+   </div></div>
+   </form>
+   </div>
   )
 }
 

@@ -31,7 +31,7 @@ const login = () => {
       <Input type="password" label="Password"  variant="bordered"/>
     <br/><br/>
      <div className='text-blue-600 text-center '>
-      <Button radius="full" className="bg-blue-600 text-white shadow-lg">
+      <Button type='submit' radius="full" className="bg-blue-600 text-white shadow-lg">
       Login
     </Button>
     <br/><br/>
