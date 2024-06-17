@@ -3,9 +3,12 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose');
 const dbConnect = require('./src/db/connection');
+const jwt = require('jsonwebtoken');
+
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
 
 
 dbConnect()
@@ -76,7 +79,8 @@ app.post('/login', async (req,res) =>{
   if (user){
     const isMatched= await bcrypt.compare(req.body.password,user.password);
     if (isMatched){
-      res.json({msg:"Authorized"})
+      const token = jwt.sign({ email: req.body.email},process.env.SECRET_KEY);
+      res.json({msg:"Authorized",token})
     }else{
       res.json({msg:"Invlide password"})
     }
