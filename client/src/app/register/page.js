@@ -5,6 +5,9 @@ import {Button, Input} from "@nextui-org/react";
 import CustumNavbar from '@/component/navbar/page';
 import { useFormik} from 'formik';
 import * as Yup from "yup";
+import toast from 'react-hot-toast';
+
+
 
 const signupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -53,7 +56,13 @@ const Register = () => {
         body: JSON.stringify(values)
     };
     const response = await fetch('http://localhost:4000/register', requestOptions);
-  
+    const data = await response.json()
+
+  if(response.status == '201'){
+    toast.success(data.msg)
+  }else{
+    toast.error(data.msg)
+  }
 
   }
   return (

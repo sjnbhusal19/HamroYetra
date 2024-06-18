@@ -62,14 +62,14 @@ app.post('/register', async(req, res) => {
     req.body.password=hashPassword;
     const phoneExist = await User.exists({phoneNumber:req.body.phoneNumber})
     const emailExist = await User.exists({email:req.body.email})
+    
     if (phoneExist) {
-      return res.json({msg :"Phone Number is already used"})
+      return res.status(409).json({msg :"Phone Number is already used"})
     }else if (emailExist){
-      return res.json({msg:"Email is already Used"})
+      return res.status(409).json({msg:"Email is already Used"})
     }
-    const newUser=new User(req.body);
-    const creatUser=await newUser.save();
-    res.status(201).send(creatUser);
+    await User.create(req.body)
+    return res.status(201).json({msg: "Your account is sucessfully created."})
   }catch (error){
     res.status(400).send(error)}
 })
