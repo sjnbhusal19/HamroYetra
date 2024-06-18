@@ -1,26 +1,27 @@
 
 const express = require('express')
-const app = express()
 const mongoose = require('mongoose');
 const dbConnect = require('./src/db/connection');
 const jwt = require('jsonwebtoken');
+const cors = require('cors')
 
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-
-
 dbConnect()
+const app = express()
 
 app.use(express.json()); // Middleware to parse JSON
+app.use(cors())
 
 const userSchema = new Schema({
-  phoneNumber: {
+ 
+  firstName:{
     type: String,
     required: true
   },
-  fullName:{
+  lastName:{
     type: String,
     required: true
   },
@@ -29,16 +30,24 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
-  password:String, // String is shorthand for {type: String}
-  gender :{
+  address:{
     type: String,
-    enum:['male','female','other'],
-  default:'female'
+    required: true
   },
-  role:{type:String,
-    enum: ['admin','rider','user'],
-    default:'user'
-  }
+  password:String, // String is shorthand for {type: String}
+  phoneNumber: {
+    type: String,
+    required: true
+  },
+  //gender :{
+    //type: String,
+   // enum:['male','female','other'],
+  //default:'female'
+  //},
+  //role:{type:String,
+    //enum: ['admin','rider','user'],
+   // default:'user'
+  //}
 });
 
 const User = mongoose.model('User', userSchema);
@@ -65,7 +74,7 @@ app.post('/register', async(req, res) => {
     res.status(400).send(error)}
 })
 
-app.get('/register', async(req, res) => {
+app.get('/user', async(req, res) => {
   try {
     const registerData= await User.find();
   res.send(registerData);
@@ -79,7 +88,7 @@ app.post('/login', async (req,res) =>{
   if (user){
     const isMatched= await bcrypt.compare(req.body.password,user.password);
     if (isMatched){
-      const token = jwt.sign({ email: req.body.email},process.env.SECRET_KEY);
+      const token = await jwt.sign({ email: req.body.email},process.env.SECRET_KEY);
       res.json({msg:"Authorized",token})
     }else{
       res.json({msg:"Invlide password"})
