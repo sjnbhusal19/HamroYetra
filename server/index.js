@@ -66,7 +66,7 @@ app.post('/register', async(req, res) => {
     if (phoneExist) {
       return res.status(409).json({msg :"Phone Number is already used"})
     }else if (emailExist){
-      return res.status(409).json({msg:"Email is already Used"})
+      return res.status(409).json({msg:"Email is already used."})
     }
     await User.create(req.body)
     return res.status(201).json({msg: "Your account is sucessfully created."})
@@ -89,12 +89,12 @@ app.post('/login', async (req,res) =>{
     const isMatched= await bcrypt.compare(req.body.password,user.password);
     if (isMatched){
       const token = await jwt.sign({ email: req.body.email},process.env.SECRET_KEY);
-      res.json({msg:"Authorized",token})
+      res.json({msg:"Sucessfully Login to HamroRide",token,user})
     }else{
-      res.json({msg:"Invlide password"})
+      res.status(401).json({msg:"Invlide password."})
     }
   }else{
-    res.json({msg:"Email is not registred"})
+    res.status(401).json({msg:"Email is not registred."})
   }
 })
 

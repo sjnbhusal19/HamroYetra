@@ -1,13 +1,16 @@
 'use client'
-import React from 'react'
+import React, { use } from 'react'
 import {Button,Input} from "@nextui-org/react";
 import Link from "next/link";
 import CustumNavbar from '@/component/navbar/page';
 import { useFormik} from 'formik';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 
 const login = () => {
-  const formik = useFormik({
+  const router = useRouter()
+  const formikLogin = useFormik({
     initialValues: {
       email: '',
       password:'',
@@ -16,9 +19,28 @@ const login = () => {
       loginUser(values)
     },
   });
+
+  const loginUser = async(values)=>{
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values)
+  };
+  const response = await fetch('http://localhost:4000/login', requestOptions);
+  const data = await response.json()
+
+ 
+if(response.status == '200'){
+  toast.success(data.msg)
+  router.push('/publishride')
+}else{
+  toast.error(data.msg)
+}
+  }
   
   return (
    <div> 
+   
     <CustumNavbar/>
     <br/><br/><br/>
    <div className='flex justify-center items-center  '>
@@ -27,11 +49,20 @@ const login = () => {
       <h1>Login to Hamro Ride</h1>
       </div>
       <br/>
-      <Input type="email" variant="bordered" label="Email"  />
-      <Input type="password" label="Password"  variant="bordered"/>
+      <form onSubmit={formikLogin.handleSubmit}>
+      <Input type="email" variant="bordered" label="Email" 
+      id="email"
+      name="email"
+      onChange={formikLogin.handleChange}
+      value={formikLogin.values.email}  />
+      <Input type="password" label="Password"  variant="bordered"
+      id="password"
+      name="password"
+      onChange={formikLogin.handleChange}
+      value={formikLogin.values.password}/>
     <br/><br/>
      <div className='text-blue-600 text-center '>
-      <Button type='submit' radius="full" className="bg-blue-600 text-white shadow-lg">
+      <Button type="submit" radius="full" className="bg-blue-600 text-white shadow-lg">
       Login
     </Button>
     <br/><br/>
@@ -39,8 +70,8 @@ const login = () => {
    <Link href='/register'> Don't have an account?</Link>  
    </div>
     </div>
+    </form>
     </div>   
-    
      </div>
      </div>
   )
