@@ -53,8 +53,8 @@ const CustumNavbar = () => {
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        <DropdownItem key="login" className='text-blue-600' ><Link href="/login">Login</Link></DropdownItem>
-      <DropdownItem key="signup" className='text-blue-600' > <Link href="/register">SignUp</Link></DropdownItem>
+       <DropdownItem key="login" className='text-blue-600' ><Link href="/login"><div>Login</div></Link></DropdownItem>
+        <DropdownItem key="signup" className='text-blue-600' ><Link href="/register"><div>SignUp</div></Link></DropdownItem>
         
       </DropdownMenu>
     </Dropdown>
