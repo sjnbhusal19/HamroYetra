@@ -39,15 +39,15 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  //gender :{
-    //type: String,
-   // enum:['male','female','other'],
-  //default:'female'
-  //},
-  //role:{type:String,
-    //enum: ['admin','rider','user'],
-   // default:'user'
-  //}
+  gender :{
+    type: String,
+    enum:['Male','Female','Others'],
+  default:'male'
+  },
+  role:{type:String,
+    enum: ['Rider','User'],
+    default:'user'
+  }
 });
 
 const User = mongoose.model('User', userSchema);
