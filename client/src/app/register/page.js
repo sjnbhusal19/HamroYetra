@@ -32,7 +32,7 @@ const signupSchema = Yup.object().shape({
   gender: Yup.string()
       .required('Gender must be select.'),    
   role: Yup.string()
-      .required('Role must be select.'), 
+      .required(' Register role must be select.'), 
 });
 
 const Register = () => {
@@ -181,8 +181,9 @@ const Register = () => {
         ) : null}
     </div>
 <div className='flex'>
-  Role :
+  Register As :
     <RadioGroup
+     orientation="horizontal"
      name="role"
      value={formik.values.role}
      onChange={e => formik.setFieldValue('role', e.target.value)}

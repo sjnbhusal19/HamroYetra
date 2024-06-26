@@ -1,5 +1,5 @@
 'use client'
-import React, { use } from 'react'
+import React from 'react'
 import {Button,Input} from "@nextui-org/react";
 import Link from "next/link";
 import CustumNavbar from '@/component/navbar/page';
@@ -32,7 +32,11 @@ const login = () => {
  
 if(response.status == '200'){
   toast.success(data.msg)
-  router.push('/publishride')
+  if (response.user.role=='Rider'){
+    router.push('/publishride')
+  }else{
+    router.push('/searchrides')
+  }
 }else{
   toast.error(data.msg)
 }
@@ -45,8 +49,8 @@ if(response.status == '200'){
     <br/><br/><br/>
    <div className='flex justify-center items-center  '>
     <div className='w-[45%]  p-8 bg-gray-100 rounded-3xl shadow-2xl p-20 m-5 space-y-7	'>
-     <div className='text-blue-600 text-center text-5xl'>
-      <h1>Login to Hamro Ride</h1>
+     <div className='text-blue-600 text-center text-4xl'>
+      <h1>Login to Hamro-Ride</h1>
       </div>
       <br/>
       <form onSubmit={formikLogin.handleSubmit}>
